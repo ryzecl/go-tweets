@@ -1,0 +1,42 @@
+# Environment variables (Sangat penting agar rahasia tidak bocor ke git)
+.env
+.env.*
+!.env.example
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (jika pakai go work / vendor)
+vendor/
+go.work
+go.work.sum
+
+# Temporary files & Air live-reload build folder
+tmp/
+temp/
+*.log
+
+# IDE & Code Editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
