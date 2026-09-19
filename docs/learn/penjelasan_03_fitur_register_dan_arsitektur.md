@@ -114,3 +114,33 @@ type userService struct {
 `ctx` dioper di parameter pertama di semua layer (`Handler -> Service -> Repo -> SQL`):
 - Berfungsi sebagai **walkie-talkie sinyal pembatalan (cancellation)**. Jika client menutup koneksi HTTP sebelum query selesai, sinyal cancel otomatis mengalir ke MySQL untuk membatalkan eksekusi query demi menghemat resource server.
 - Membawa **batas waktu (timeout)** dan data khusus request (*request-scoped value*).
+
+---
+
+## 5. Tambahan: Request Payload Validation (`go-playground/validator/v10`)
+
+Pada pembaruan lanjutan, validasi request ditambahkan untuk memastikan integritas input sebelum diteruskan ke layer Service.
+
+### A. Definisi Rule di DTO (`user_dto.go`)
+```go
+type RegisterRequest struct {
+    Email           string `json:"email" validate:"required,email"`
+    Username        string `json:"username" validate:"required,min=3"`
+    Password        string `json:"password" validate:"required"`
+    PasswordConfirm string `json:"password_confirm" validate:"required,eqfield=Password"`
+}
+```
+- `validate:"required,email"`: Wajib diisi dan harus format email yang sah.
+- `validate:"required,min=3"`: Wajib diisi dan minimal panjang string 3 karakter.
+- `validate:"required,eqfield=Password"`: Nilai harus identik dengan field struct `Password` (padanan aturan `confirmed` di Laravel atau `.refine()` di Zod).
+
+### B. Dependency Injection Validator (`main.go`)
+```go
+validate := validator.New()
+userHandler := userHandler.NewUserHandler(r, validate, userService)
+```
+Instance `validator.Validate` diinisialisasi sekali di `main()` dan di-inject ke handler sebagai pointer `*validator.Validate` demi efisiensi caching metadata struct tag.
+
+### C. Mental Model 2 Tahap di Handler (`register.go`)
+1. **Tahap 1 (`ShouldBindJSON`)**: Validasi sintaks format JSON.
+2. **Tahap 2 (`validate.Struct(&req)`)**: Validasi aturan bisnis/semantik field. Jika gagal, langsung kembalikan HTTP `400 Bad Request` sebelum membebani database.
