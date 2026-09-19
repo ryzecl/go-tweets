@@ -5,6 +5,7 @@ import (
 	"go-tweets/internal/config"
 	"go-tweets/pkg/internalsql"
 	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +25,12 @@ func main() {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
-	server := fmt.Sprintf("127.0.0.1:%s", cfg.Port)
+	r.GET("/check", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"mesage": "App is running",
+		})
+	})
 
+	server := fmt.Sprintf("127.0.0.1:%s", cfg.Port)
 	r.Run(server)
 }
