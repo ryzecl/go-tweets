@@ -127,8 +127,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [01 - Setup Database, Migration, & Gin](docs/learn/penjelasan_01_setup_database_migration.md)
 - [02 - Konvensi Pesan Commit Git](docs/learn/penjelasan_02_konvensi_pesan_commit_git.md)
 - [03 - Clean Architecture, Fitur Register, & Cara Baca Kodingan Go](docs/learn/penjelasan_03_fitur_register_dan_arsitektur.md)
-
----
-
-## 📝 License
-MIT License
+- [04 - Fitur Login Pengguna, Autentikasi JWT, dan Refresh Token](docs/learn/penjelasan_04_fitur_login_jwt_dan_refresh_token.md)
