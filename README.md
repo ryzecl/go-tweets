@@ -129,3 +129,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [03 - Clean Architecture, Fitur Register, & Cara Baca Kodingan Go](docs/learn/penjelasan_03_fitur_register_dan_arsitektur.md)
 - [04 - Fitur Login Pengguna, Autentikasi JWT, dan Refresh Token](docs/learn/penjelasan_04_fitur_login_jwt_dan_refresh_token.md)
 - [05 - Fitur Refresh Token, Middleware Autentikasi JWT, dan Token Rotation](docs/learn/penjelasan_05_fitur_refresh_token_dan_middleware_auth.md)
+- [06 - Fitur Create Tweet / Post & Protected Route Middleware](docs/learn/penjelasan_06_fitur_create_tweet_dan_protected_route.md)
