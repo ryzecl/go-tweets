@@ -40,7 +40,7 @@ func main() {
 	userRepo := userRepo.NewUserRepository(db)
 	userService := userService.NewUserService(cfg, userRepo)
 	userHandler := userHandler.NewUserHandler(r, validate, userService)
-	userHandler.RouteList()
+	userHandler.RouteList(cfg.SecretJWT)
 
 	server := fmt.Sprintf("127.0.0.1:%s", cfg.Port)
 	r.Run(server)
