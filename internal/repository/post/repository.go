@@ -12,6 +12,9 @@ type PostRepository interface {
 	GetPostByID(ctx context.Context, postID int64) (*model.PostModel, error)
 	UpdatePost(ctx context.Context, model *model.PostModel, postID int64) error
 	SoftDeletePost(ctx context.Context, postID int64, now time.Time) error
+	IsUserAlreadyLikePost(ctx context.Context, postID, userID int64) (bool, error)
+	DeleteLikePost(ctx context.Context, postID, userID int64) error
+	StoreLikePost(ctx context.Context, model *model.PostLikeModel) error
 }
 
 type postRepository struct {

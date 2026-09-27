@@ -10,3 +10,9 @@ type (
 		ID int64 `json:"id"`
 	}
 )
+
+type (
+	LikeOrUnlikePostRequest struct {
+		PostID int64 `json:"post_id" validate:"required"`
+	}
+)

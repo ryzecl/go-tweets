@@ -11,6 +11,7 @@ type PostService interface {
 	CreatePost(ctx context.Context, req *dto.CreateOrUpdatePostRequest, userID int64) (int64, int, error)
 	UpdatePost(ctx context.Context, req *dto.CreateOrUpdatePostRequest, postID, userID int64) (int, error)
 	DeletePost(ctx context.Context, postID, userID int64) (int, error)
+	LikeOrUnlikePost(ctx context.Context, postID, userID int64) (int, error)
 }
 
 type postService struct {

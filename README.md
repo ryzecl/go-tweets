@@ -202,7 +202,7 @@ Server akan aktif di `http://127.0.0.1:8080`.
   }
   ```
 
-- **`DELETE /tweets/:post_id`** *(Protected via Access Token & Ownership Check)*  
+- **`DELETE /tweets/:post_id/delete`** *(Protected via Access Token & Ownership Check)*  
   Menghapus tweet secara lunak (*Soft Delete*) dengan mengisi kolom `deleted_at`.
 
   **Headers:**
@@ -214,6 +214,28 @@ Server akan aktif di `http://127.0.0.1:8080`.
   ```json
   {
     "message": "Post deleted successfully"
+  }
+  ```
+
+- **`POST /tweets/action`** *(Protected via Access Token)*  
+  Menyukai (*Like*) atau membatalkan suka (*Unlike*) sebuah tweet secara otomatis (*Toggle*).
+
+  **Headers:**
+  ```http
+  Authorization: Bearer <access_token>
+  ```
+
+  **Request Body:**
+  ```json
+  {
+    "post_id": 1
+  }
+  ```
+
+  **Response (200 OK):**
+  ```json
+  {
+    "message": "succesfully liked or unliked post"
   }
   ```
 
@@ -230,3 +252,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [06 - Fitur Create Tweet / Post & Protected Route Middleware](docs/learn/penjelasan_06_fitur_create_tweet_dan_protected_route.md)
 - [07 - Fitur Update Tweet / Postingan & Ownership Authorization](docs/learn/penjelasan_07_fitur_update_tweet_dan_authorization.md)
 - [08 - Fitur Soft Delete Tweet & Data Persistence](docs/learn/penjelasan_08_fitur_soft_delete_tweet_dan_data_persistence.md)
+- [09 - Fitur Like & Unlike Tweet (Toggle Action)](docs/learn/penjelasan_09_fitur_like_dan_unlike_tweet_toggle_action.md)
