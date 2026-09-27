@@ -4,6 +4,7 @@ import (
 	"context"
 	"go-tweets/internal/config"
 	"go-tweets/internal/dto"
+	"go-tweets/internal/repository/comment"
 	"go-tweets/internal/repository/post"
 )
 
@@ -12,16 +13,19 @@ type PostService interface {
 	UpdatePost(ctx context.Context, req *dto.CreateOrUpdatePostRequest, postID, userID int64) (int, error)
 	DeletePost(ctx context.Context, postID, userID int64) (int, error)
 	LikeOrUnlikePost(ctx context.Context, postID, userID int64) (int, error)
+	DetailPost(ctx context.Context, postID int64) (*dto.DetailPostResponse, int, error)
 }
 
 type postService struct {
-	cfg      *config.Config
-	postRepo post.PostRepository
+	cfg         *config.Config
+	postRepo    post.PostRepository
+	commentRepo comment.CommentRepository
 }
 
-func NewPostService(cfg *config.Config, postRepo post.PostRepository) PostService {
+func NewPostService(cfg *config.Config, postRepo post.PostRepository, commentRepo comment.CommentRepository) PostService {
 	return &postService{
-		cfg:      cfg,
-		postRepo: postRepo,
+		cfg:         cfg,
+		postRepo:    postRepo,
+		commentRepo: commentRepo,
 	}
 }

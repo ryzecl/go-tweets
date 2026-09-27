@@ -12,6 +12,7 @@ type CommentRepository interface {
 	IsUserAlreadyLikeComment(ctx context.Context, commentID, userID int64) (bool, error)
 	DeleteLikeComment(ctx context.Context, commentID, userID int64) error
 	StoreLikeComment(ctx context.Context, model *model.CommentLikeModel) error
+	GetCommentsByPostIDs(ctx context.Context, postIDs []int64) ([]model.CommentModel, error)
 }
 
 type commentRepository struct {

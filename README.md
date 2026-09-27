@@ -239,6 +239,32 @@ Server akan aktif di `http://127.0.0.1:8080`.
   }
   ```
 
+- **`GET /tweets/:post_id/detail`** *(Public / Tanpa Auth)*  
+  Mendapatkan detail postingan/tweet lengkap beserta username pembuat, jumlah like, dan daftar seluruh komentar yang terurut berdasarkan komentar terpopuler.
+
+  **Response (200 OK):**
+  ```json
+  {
+    "id": 1,
+    "username": "user123",
+    "title": "Halo Dunia",
+    "content": "Ini adalah postingan tweet saya!",
+    "like_count": 5,
+    "comments": [
+      {
+        "id": 1,
+        "username": "reviewer",
+        "content": "Keren banget pembahasannya!",
+        "like_count": 2,
+        "created_at": "2026-09-28 06:00:00",
+        "updated_at": "2026-09-28 06:00:00"
+      }
+    ],
+    "created_at": "2026-09-28 05:00:00",
+    "updated_at": "2026-09-28 05:00:00"
+  }
+  ```
+
 ### Comments
 
 - **`POST /comment/`** *(Protected via Access Token)*  
@@ -302,3 +328,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [09 - Fitur Like & Unlike Tweet (Toggle Action)](docs/learn/penjelasan_09_fitur_like_dan_unlike_tweet_toggle_action.md)
 - [10 - Modul Komentar & Cross-Repository Dependency Injection](docs/learn/penjelasan_10_modul_komentar_dan_cross_repository_injection.md)
 - [11 - Fitur Like & Unlike Komentar (Toggle Action)](docs/learn/penjelasan_11_fitur_like_dan_unlike_komentar_toggle.md)
+- [12 - Fitur Detail Tweet & Pola Eager Loading Komentar](docs/learn/penjelasan_12_fitur_detail_tweet_dan_eager_loading_komentar.md)
