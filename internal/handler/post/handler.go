@@ -25,6 +25,6 @@ func NewPostHandler(api *gin.Engine, validate *validator.Validate, postService p
 func (h *PostHandler) RouteList(secretKey string) {
 	routeAuth := h.api.Group("/tweets")
 	routeAuth.Use(middleware.AuthMiddleware(secretKey))
-
 	routeAuth.POST("/", h.CreatePost)
+	routeAuth.PUT("/:post_id/update", h.UpdatePost)
 }

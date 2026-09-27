@@ -119,6 +119,89 @@ Server akan aktif di `http://127.0.0.1:8080`.
   }
   ```
 
+- **`POST /auth/login`**  
+  Masuk ke aplikasi menggunakan email & password untuk mendapatkan Access Token dan Refresh Token.
+
+  **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "secretpassword"
+  }
+  ```
+
+  **Response (200 OK):**
+  ```json
+  {
+    "access_token": "eyJhbGciOiJIUzI1Ni...",
+    "refresh_token": "eyJhbGciOiJIUzI1Ni..."
+  }
+  ```
+
+- **`POST /auth/refresh`** *(Protected via Refresh Token)*  
+  Memperbarui Access Token dan Refresh Token baru (Token Rotation).
+
+  **Headers:**
+  ```http
+  Authorization: Bearer <refresh_token>
+  ```
+
+  **Response (200 OK):**
+  ```json
+  {
+    "access_token": "eyJhbGciOiJIUzI1Ni...",
+    "refresh_token": "eyJhbGciOiJIUzI1Ni..."
+  }
+  ```
+
+### Tweets / Posts
+
+- **`POST /tweets/`** *(Protected via Access Token)*  
+  Membuat postingan/tweet baru untuk pengguna yang sedang login.
+
+  **Headers:**
+  ```http
+  Authorization: Bearer <access_token>
+  ```
+
+  **Request Body:**
+  ```json
+  {
+    "title": "Halo Dunia",
+    "content": "Ini adalah postingan pertama saya di go-tweets!"
+  }
+  ```
+
+  **Response (201 Created):**
+  ```json
+  {
+    "id": 1
+  }
+  ```
+
+- **`PUT /tweets/:post_id/update`** *(Protected via Access Token & Ownership Check)*  
+  Memperbarui judul dan isi tweet yang dimiliki pengguna.
+
+  **Headers:**
+  ```http
+  Authorization: Bearer <access_token>
+  ```
+
+  **Request Body:**
+  ```json
+  {
+    "title": "Judul Baru yang Diperbarui",
+    "content": "Konten tweet yang sudah diedit."
+  }
+  ```
+
+  **Response (200 OK):**
+  ```json
+  {
+    "id": 1
+  }
+  ```
+
 ---
 
 ## 📚 Catatan Belajar (Learning Docs)
@@ -130,3 +213,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [04 - Fitur Login Pengguna, Autentikasi JWT, dan Refresh Token](docs/learn/penjelasan_04_fitur_login_jwt_dan_refresh_token.md)
 - [05 - Fitur Refresh Token, Middleware Autentikasi JWT, dan Token Rotation](docs/learn/penjelasan_05_fitur_refresh_token_dan_middleware_auth.md)
 - [06 - Fitur Create Tweet / Post & Protected Route Middleware](docs/learn/penjelasan_06_fitur_create_tweet_dan_protected_route.md)
+- [07 - Fitur Update Tweet / Postingan & Ownership Authorization](docs/learn/penjelasan_07_fitur_update_tweet_dan_authorization.md)

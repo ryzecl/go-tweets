@@ -1,12 +1,12 @@
 package dto
 
 type (
-	CreatePostRequest struct {
+	CreateOrUpdatePostRequest struct {
 		Title   string `json:"title" validate:"required"`
 		Content string `json:"content" validate:"required"`
 	}
 
-	CreatePostResponse struct {
+	CreateOrUpdatePostResponse struct {
 		ID int64 `json:"id"`
 	}
 )
