@@ -239,6 +239,31 @@ Server akan aktif di `http://127.0.0.1:8080`.
   }
   ```
 
+### Comments
+
+- **`POST /comment/`** *(Protected via Access Token)*  
+  Membuat komentar/balasan pada sebuah tweet tertentu.
+
+  **Headers:**
+  ```http
+  Authorization: Bearer <access_token>
+  ```
+
+  **Request Body:**
+  ```json
+  {
+    "post_id": 1,
+    "content": "Komentar pertama saya pada tweet ini!"
+  }
+  ```
+
+  **Response (200 OK):**
+  ```json
+  {
+    "message": "comment created successfully"
+  }
+  ```
+
 ---
 
 ## 📚 Catatan Belajar (Learning Docs)
@@ -253,3 +278,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [07 - Fitur Update Tweet / Postingan & Ownership Authorization](docs/learn/penjelasan_07_fitur_update_tweet_dan_authorization.md)
 - [08 - Fitur Soft Delete Tweet & Data Persistence](docs/learn/penjelasan_08_fitur_soft_delete_tweet_dan_data_persistence.md)
 - [09 - Fitur Like & Unlike Tweet (Toggle Action)](docs/learn/penjelasan_09_fitur_like_dan_unlike_tweet_toggle_action.md)
+- [10 - Modul Komentar & Cross-Repository Dependency Injection](docs/learn/penjelasan_10_modul_komentar_dan_cross_repository_injection.md)
