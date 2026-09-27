@@ -316,10 +316,60 @@ func (s *postService) DetailPost(ctx context.Context, postID int64) (*dto.Detail
 
 ## 7. Learning Corner: Pelajaran Emas & Gotchas
 
-### 💡 Mengapa Compiler Menolak: `cannot use &postRepository as PostRepository (missing method)`?
+### 💡 1. Mengapa Compiler Menolak: `cannot use &postRepository as PostRepository (missing method)`?
 Jika kamu menambahkan method pada `interface`, Go mengharuskan **struct yang mengimplementasikannya memiliki nama method dan signature yang sama persis**:
 1. Ketika method `GetCommentsByPostIDs` dipindahkan fisiknya ke `commentRepository`, method itu **wajib dihapus dari interface `PostRepository`**.
 2. Jika tidak dihapus, Go menganggap `postRepository` gagal memenuhi janji kontrak antarmukanya (*missing method*).
+
+---
+
+### 💡 2. Standar Emas Membaca Multi-Row Query: `defer rows.Close()` & `rows.Err()`
+
+Ketika membaca data banyak baris menggunakan `QueryContext` atau `Query`, ada pola standar industri di Go yang wajib dipatuhi:
+
+```go
+rows, err := r.db.QueryContext(ctx, query, args...)
+if err != nil {
+    return nil, err
+}
+defer rows.Close() // 1. WAJIB: Mencegah kebocoran koneksi pool
+
+result := make([]model.CommentModel, 0)
+for rows.Next() {
+    var data model.CommentModel
+    // 2. Scoped statement & multiline scan: Rapi dan aman dari variable shadowing
+    if err := rows.Scan(
+        &data.ID,
+        &data.PostID,
+        &data.UserID,
+        &data.Username,
+        &data.Content,
+        &data.CreatedAt,
+        &data.UpdatedAt,
+        &data.LikeCount,
+    ); err != nil {
+        return nil, err
+    }
+
+    result = append(result, data)
+}
+
+// 3. KRUSIAL: Memeriksa apakah loop berhenti secara normal atau karena error jaringan
+if err := rows.Err(); err != nil {
+    return nil, err
+}
+
+return result, nil
+```
+
+#### Mengapa `rows.Err()` Wajib Dicek?
+Loop `for rows.Next()` dapat berhenti karena dua kondisi:
+1. **Kondisi Normal**: Seluruh baris data dari database memang sudah habis dibaca.
+2. **Kondisi Error Jaringan**: Koneksi ke MySQL terputus tiba-tiba, query timeout di tengah streaming baris ke-50, atau paket data korup.
+
+Ketika error terjadi di tengah-tengah iterasi, **`rows.Next()` akan diam-diam mengembalikan nilai `false`** tanpa melempar error di dalam loop. Akibatnya, loop berhenti prematur seolah-olah data sudah habis (padahal baru terbaca sebagian)!  
+Satu-satunya cara resmi di Go untuk mengetahui apakah pembacaan data selesai secara wajar atau terputus di tengah jalan adalah dengan mengecek:
+$$\text{`if err := rows.Err(); err != nil`}$$
 
 ---
 

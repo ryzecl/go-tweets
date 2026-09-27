@@ -2,7 +2,6 @@ package comment
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"go-tweets/internal/model"
 	"strings"
@@ -30,30 +29,33 @@ func (r *commentRepository) GetCommentsByPostIDs(ctx context.Context, postIDs []
 
 	rows, err := r.db.QueryContext(ctx, query, args...)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return []model.CommentModel{}, nil
-		}
-		return []model.CommentModel{}, err
+		return nil, err
 	}
+	defer rows.Close()
 
 	result := make([]model.CommentModel, 0)
+
 	for rows.Next() {
 		var data model.CommentModel
-		err = rows.Scan(&data.ID, &data.PostID, &data.UserID, &data.Username, &data.Content, &data.CreatedAt, &data.UpdatedAt, &data.LikeCount)
-		if err != nil {
-			return []model.CommentModel{}, err
+
+		if err := rows.Scan(
+			&data.ID,
+			&data.PostID,
+			&data.UserID,
+			&data.Username,
+			&data.Content,
+			&data.CreatedAt,
+			&data.UpdatedAt,
+			&data.LikeCount,
+		); err != nil {
+			return nil, err
 		}
 
-		result = append(result, model.CommentModel{
-			ID:        data.ID,
-			PostID:    data.PostID,
-			UserID:    data.UserID,
-			Username:  data.Username,
-			Content:   data.Content,
-			CreatedAt: data.CreatedAt,
-			UpdatedAt: data.UpdatedAt,
-			LikeCount: data.LikeCount,
-		})
+		result = append(result, data)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return result, nil
