@@ -202,6 +202,21 @@ Server akan aktif di `http://127.0.0.1:8080`.
   }
   ```
 
+- **`DELETE /tweets/:post_id`** *(Protected via Access Token & Ownership Check)*  
+  Menghapus tweet secara lunak (*Soft Delete*) dengan mengisi kolom `deleted_at`.
+
+  **Headers:**
+  ```http
+  Authorization: Bearer <access_token>
+  ```
+
+  **Response (200 OK):**
+  ```json
+  {
+    "message": "Post deleted successfully"
+  }
+  ```
+
 ---
 
 ## 📚 Catatan Belajar (Learning Docs)
@@ -214,3 +229,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [05 - Fitur Refresh Token, Middleware Autentikasi JWT, dan Token Rotation](docs/learn/penjelasan_05_fitur_refresh_token_dan_middleware_auth.md)
 - [06 - Fitur Create Tweet / Post & Protected Route Middleware](docs/learn/penjelasan_06_fitur_create_tweet_dan_protected_route.md)
 - [07 - Fitur Update Tweet / Postingan & Ownership Authorization](docs/learn/penjelasan_07_fitur_update_tweet_dan_authorization.md)
+- [08 - Fitur Soft Delete Tweet & Data Persistence](docs/learn/penjelasan_08_fitur_soft_delete_tweet_dan_data_persistence.md)
