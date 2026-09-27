@@ -27,4 +27,5 @@ func (h *PostHandler) RouteList(secretKey string) {
 	routeAuth.Use(middleware.AuthMiddleware(secretKey))
 	routeAuth.POST("/", h.CreatePost)
 	routeAuth.PUT("/:post_id/update", h.UpdatePost)
+	routeAuth.DELETE("/:post_id/delete", h.DeletePost)
 }
