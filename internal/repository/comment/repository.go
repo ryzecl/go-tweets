@@ -8,6 +8,10 @@ import (
 
 type CommentRepository interface {
 	StoreComment(ctx context.Context, model *model.CommentModel) error
+	DetailComment(ctx context.Context, commentID int64) (*model.CommentModel, error)
+	IsUserAlreadyLikeComment(ctx context.Context, commentID, userID int64) (bool, error)
+	DeleteLikeComment(ctx context.Context, commentID, userID int64) error
+	StoreLikeComment(ctx context.Context, model *model.CommentLikeModel) error
 }
 
 type commentRepository struct {

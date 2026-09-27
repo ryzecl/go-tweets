@@ -264,6 +264,28 @@ Server akan aktif di `http://127.0.0.1:8080`.
   }
   ```
 
+- **`POST /comment/action`** *(Protected via Access Token)*  
+  Menyukai (*Like*) atau membatalkan suka (*Unlike*) sebuah komentar secara otomatis (*Toggle*).
+
+  **Headers:**
+  ```http
+  Authorization: Bearer <access_token>
+  ```
+
+  **Request Body:**
+  ```json
+  {
+    "comment_id": 1
+  }
+  ```
+
+  **Response (200 OK):**
+  ```json
+  {
+    "message": "succesfully liked or unliked comment"
+  }
+  ```
+
 ---
 
 ## 📚 Catatan Belajar (Learning Docs)
@@ -279,3 +301,4 @@ Dokumentasi konsep arsitektur, perbedaan ekosistem (Go vs Laravel vs Next.js), d
 - [08 - Fitur Soft Delete Tweet & Data Persistence](docs/learn/penjelasan_08_fitur_soft_delete_tweet_dan_data_persistence.md)
 - [09 - Fitur Like & Unlike Tweet (Toggle Action)](docs/learn/penjelasan_09_fitur_like_dan_unlike_tweet_toggle_action.md)
 - [10 - Modul Komentar & Cross-Repository Dependency Injection](docs/learn/penjelasan_10_modul_komentar_dan_cross_repository_injection.md)
+- [11 - Fitur Like & Unlike Komentar (Toggle Action)](docs/learn/penjelasan_11_fitur_like_dan_unlike_komentar_toggle.md)

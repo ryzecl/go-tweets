@@ -6,3 +6,9 @@ type (
 		Content string `json:"content" validate:"required"`
 	}
 )
+
+type (
+	LikeOrUnlikeCommentRequest struct {
+		CommentID int64 `json:"comment_id" validate:"required"`
+	}
+)

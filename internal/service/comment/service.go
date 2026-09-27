@@ -10,6 +10,7 @@ import (
 
 type CommentService interface {
 	CreateComment(ctx context.Context, req *dto.StoreCommentRequest, userID int64) (int, error)
+	LikeOrUnlikeComment(ctx context.Context, commentID, userID int64) (int, error)
 }
 
 type commentService struct {
