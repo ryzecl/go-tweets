@@ -38,3 +38,17 @@ type (
 		UpdatedAt string    `json:"updated_at"`
 	}
 )
+
+type (
+	GetAllPostRequest struct {
+		Limit int64 `param:"limit"`
+		Page  int64 `param:"page"`
+	}
+
+	GetAllPostResponse struct {
+		TotalPage   int64                `json:"total_page"`
+		CurrentPage int64                `json:"current_page"`
+		Limit       int64                `json:"limit"`
+		Data        []DetailPostResponse `json:"data"`
+	}
+)

@@ -14,6 +14,7 @@ type PostService interface {
 	DeletePost(ctx context.Context, postID, userID int64) (int, error)
 	LikeOrUnlikePost(ctx context.Context, postID, userID int64) (int, error)
 	DetailPost(ctx context.Context, postID int64) (*dto.DetailPostResponse, int, error)
+	GetAllPost(ctx context.Context, req *dto.GetAllPostRequest) (*dto.GetAllPostResponse, int, error)
 }
 
 type postService struct {
